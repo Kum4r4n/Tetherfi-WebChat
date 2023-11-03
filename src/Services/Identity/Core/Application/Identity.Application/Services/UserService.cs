@@ -1,13 +1,16 @@
 ﻿using Identity.Application.Exceptions;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Services;
+using Identity.Application.Models.Common;
 using Identity.Application.Models.Request;
+using Identity.Application.Models.Response;
 using Identity.Domain.Entities;
 using System.Security.Claims;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Identity.Application.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
@@ -19,7 +22,7 @@ namespace Identity.Application.Services
             _tokenService = tokenService;
         }
 
-        public async Task RegisterUser(RegisterRequestModel registerRequestModel)
+        public async Task<string> RegisterUser(RegisterRequestModel registerRequestModel)
         {
             var userExist = await _userRepository.Get(registerRequestModel.Email);
             if (userExist != null)
@@ -39,6 +42,68 @@ namespace Identity.Application.Services
             };
 
             var token = _tokenService.GenerateAccessToken(claims);
+
+            return token;
+        }
+
+        public async Task<string> Login(LoginRequestModel loginRequestModel)
+        {
+            var user = await _userRepository.Get(loginRequestModel.Email);
+            if(user == null)
+            {
+                throw new BadRequestException("Email is not exist, please register the account");
+            }
+
+
+            var isVerified = _passwordService.Verify(loginRequestModel.Password, user.Password);
+            if (!isVerified)
+            {
+                throw new BadRequestException("Email or Password incorrect");
+            }
+
+            var claims = new List<Claim>() {
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email )
+            };
+
+            var token = _tokenService.GenerateAccessToken(claims);
+
+            return token;
+        }
+
+
+        public async Task<UserResponseModel> GetUser(ClaimsPrincipal user)
+        {
+            var userId = Guid.Parse(user.Identity.Name);
+            var userData = await _userRepository.Get(userId);
+
+            var responseModel = new UserResponseModel()
+            {
+                Id = userId,
+                Name = userData.Name,
+                Email = userData.Email,
+            };
+
+            return responseModel;
+        }
+
+        public async Task<UserResponseModel> Update(UpdateUserRequestModel updateUserRequestModel, ClaimsPrincipal user)
+        {
+            var userId = Guid.Parse(user.Identity.Name);
+            var userData = await _userRepository.Get(userId);
+
+            userData.Name = updateUserRequestModel.Name;
+
+            var data = await _userRepository.Update(userData);
+
+            var responseModel = new UserResponseModel()
+            {
+                Id = userId,
+                Name = userData.Name,
+                Email = userData.Email,
+            };
+
+            return responseModel;
         }
     }
 }
