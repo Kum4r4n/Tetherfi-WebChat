@@ -38,7 +38,7 @@ namespace Identity.Application.Services
                 new Claim(ClaimTypes.Email, data.Email )
             };
 
-            var token = _tokenService.GenerateAccessToken( claims );
+            var token = _tokenService.GenerateAccessToken(claims);
         }
     }
 }
