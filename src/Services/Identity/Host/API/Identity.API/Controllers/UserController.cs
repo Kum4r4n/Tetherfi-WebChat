@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Interfaces.Services;
 using Identity.Application.Models.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,27 @@ namespace Identity.API.Controllers
             return Ok(data);
         }
 
-        
+        [HttpPost(nameof(Login))]
+        public async Task<IActionResult> Login(LoginRequestModel loginRequestModel)
+        {
+            var data = await _userService.Login(loginRequestModel);
+            return Ok(data);
+        }
+
+        [Authorize]
+        [HttpPut(nameof(Update))]
+        public async Task<IActionResult> Update(UpdateUserRequestModel updateUserRequestModel)
+        {
+            var data = await _userService.Update(updateUserRequestModel, User);
+            return Ok(data);
+        }
+
+        [Authorize]
+        [HttpGet("Profile")]
+        public async Task<IActionResult> GetUserData()
+        {
+            var data = await _userService.GetUser(User);
+            return Ok(data);   
+        }
     }
 }
