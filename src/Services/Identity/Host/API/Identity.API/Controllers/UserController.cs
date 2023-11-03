@@ -1,7 +1,6 @@
 ﻿using Identity.Application.Interfaces.Services;
 using Identity.Application.Models.Request;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers
@@ -45,7 +44,7 @@ namespace Identity.API.Controllers
         public async Task<IActionResult> GetUserData()
         {
             var data = await _userService.GetUser(User);
-            return Ok(data);   
+            return Ok(data);
         }
     }
 }

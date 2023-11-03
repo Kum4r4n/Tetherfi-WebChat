@@ -1,12 +1,10 @@
 ﻿using Identity.Application.Exceptions;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Services;
-using Identity.Application.Models.Common;
 using Identity.Application.Models.Request;
 using Identity.Application.Models.Response;
 using Identity.Domain.Entities;
 using System.Security.Claims;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Identity.Application.Services
 {
@@ -49,7 +47,7 @@ namespace Identity.Application.Services
         public async Task<string> Login(LoginRequestModel loginRequestModel)
         {
             var user = await _userRepository.Get(loginRequestModel.Email);
-            if(user == null)
+            if (user == null)
             {
                 throw new BadRequestException("Email is not exist, please register the account");
             }
