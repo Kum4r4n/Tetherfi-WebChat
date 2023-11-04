@@ -1,6 +1,7 @@
 ﻿using Identity.Application.Exceptions;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Services;
+using Identity.Application.Models.Common;
 using Identity.Application.Models.Request;
 using Identity.Application.Models.Response;
 using Identity.Domain.Entities;
@@ -20,7 +21,7 @@ namespace Identity.Application.Services
             _tokenService = tokenService;
         }
 
-        public async Task<string> RegisterUser(RegisterRequestModel registerRequestModel)
+        public async Task<TokenModel> RegisterUser(RegisterRequestModel registerRequestModel)
         {
             var userExist = await _userRepository.Get(registerRequestModel.Email);
             if (userExist != null)
@@ -41,10 +42,10 @@ namespace Identity.Application.Services
 
             var token = _tokenService.GenerateAccessToken(claims);
 
-            return token;
+            return new TokenModel() { Token = token };
         }
 
-        public async Task<string> Login(LoginRequestModel loginRequestModel)
+        public async Task<TokenModel> Login(LoginRequestModel loginRequestModel)
         {
             var user = await _userRepository.Get(loginRequestModel.Email);
             if (user == null)
@@ -66,7 +67,7 @@ namespace Identity.Application.Services
 
             var token = _tokenService.GenerateAccessToken(claims);
 
-            return token;
+            return new TokenModel() { Token = token };
         }
 
 

@@ -37,6 +37,8 @@ builder.Services.AddSingleton(tokenSetting);
 builder.Services.AddScoped<Identity.Application.Interfaces.IConfigurationProvider, Identity.Infrastructure.Configuration.ConfigurationProvider>();
 builder.Services.AddAuth(tokenSetting.Secret);
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuth();
 
