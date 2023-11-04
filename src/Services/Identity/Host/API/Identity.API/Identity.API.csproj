@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Common\Common.csproj" />
     <ProjectReference Include="..\..\..\Core\Application\Identity.Application\Identity.Application.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Identity.Infrastructure\Identity.Infrastructure.csproj" />
   </ItemGroup>

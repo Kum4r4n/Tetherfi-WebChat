@@ -1,3 +1,4 @@
+using Common.Authentication;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Services;
 using Identity.Application.Services;
@@ -33,9 +34,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 //settings
 var tokenSetting = builder.Configuration.GetSection("TokenSetting").Get<TokenSetting>();
 builder.Services.AddSingleton(tokenSetting);
-
 builder.Services.AddScoped<Identity.Application.Interfaces.IConfigurationProvider, Identity.Infrastructure.Configuration.ConfigurationProvider>();
-
+builder.Services.AddAuth(tokenSetting.Secret);
 
 var app = builder.Build();
 
@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuth();
 
 app.MapControllers();
 
