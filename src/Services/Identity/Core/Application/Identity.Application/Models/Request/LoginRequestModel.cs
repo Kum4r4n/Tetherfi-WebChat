@@ -7,7 +7,8 @@ namespace Identity.Application.Models.Request
     {
         [JsonIgnore]
         public override Guid? Id { get => base.Id; set => base.Id = value; }
+
         [JsonIgnore]
-        public override string Name { get => base.Name; set => base.Name = value; }
+        public override string? Name { get => base.Name; set => base.Name = value; }
     }
 }
