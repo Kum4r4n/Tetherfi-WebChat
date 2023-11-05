@@ -1,0 +1,22 @@
+
+  <div class="login-container">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>Profile</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form  (ngSubmit)="updateProfile(update.value)" #update="ngForm">
+            <mat-form-field>
+                <input matInput [(ngModel)]="user.name" placeholder="Name" name="name" ngModel required>
+                </mat-form-field>
+              <mat-form-field>
+                <input matInput [(ngModel)]="user.email" placeholder="Email" name="email" ngModel required readonly>
+              </mat-form-field>
+              
+          <button mat-raised-button color="primary" type="submit">Update</button>
+          <a routerLink="/chatRoom" class="btn btn-link">Cancel</a>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
