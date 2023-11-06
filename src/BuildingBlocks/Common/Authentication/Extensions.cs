@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,18 @@ namespace Common.Authentication
                         ValidateLifetime = true,
                         SaveSigninToken = true
                     };
+                    x.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context => {
+                            context.Request.Query.TryGetValue("token", out StringValues token);
+                            context.Token = token;
+                            return Task.CompletedTask;
+                        },
+                        OnAuthenticationFailed = context => {
+                            var ex = context.Exception;
+                            return Task.CompletedTask;
+                        }
+                    };      
 
                 });
 
