@@ -2,12 +2,7 @@
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Models.Response;
 using Identity.Infrastructure.Proto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Providers
 {

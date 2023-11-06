@@ -42,7 +42,7 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<List<User>> GetUserNames(List<Guid> userIds)
         {
-            var data = await _dbContext.Users.Where(s=> userIds.Contains(s.Id)).ToListAsync();
+            var data = await _dbContext.Users.Where(s => userIds.Contains(s.Id)).ToListAsync();
             return data;
         }
     }

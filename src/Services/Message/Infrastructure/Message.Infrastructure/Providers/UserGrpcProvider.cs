@@ -1,15 +1,10 @@
 ﻿using Message.Application.Models;
 using Message.Infrastructure.Proto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Message.Infrastructure.Providers
 {
-    public class UserGrpcProvider 
+    public class UserGrpcProvider
     {
         private readonly UserService.UserServiceClient _client;
 
@@ -20,8 +15,9 @@ namespace Message.Infrastructure.Providers
 
         public async Task<List<ProtoUserModel>> GetUsersNames(List<Guid> userIds)
         {
-            var request = new UserRequest() {
-                 ReqMessage = string.Join(',', userIds)
+            var request = new UserRequest()
+            {
+                ReqMessage = string.Join(',', userIds)
             };
 
             var response = await _client.GetUsersNamesAsync(request);

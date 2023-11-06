@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.Authentication
 {
@@ -15,7 +11,7 @@ namespace Common.Authentication
     {
         public static IServiceCollection AddAuth(this IServiceCollection services, string key)
         {
-          
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -37,16 +33,18 @@ namespace Common.Authentication
                     };
                     x.Events = new JwtBearerEvents
                     {
-                        OnMessageReceived = context => {
+                        OnMessageReceived = context =>
+                        {
                             context.Request.Query.TryGetValue("token", out StringValues token);
                             context.Token = token;
                             return Task.CompletedTask;
                         },
-                        OnAuthenticationFailed = context => {
+                        OnAuthenticationFailed = context =>
+                        {
                             var ex = context.Exception;
                             return Task.CompletedTask;
                         }
-                    };      
+                    };
 
                 });
 

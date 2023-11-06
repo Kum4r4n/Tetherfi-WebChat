@@ -4,11 +4,6 @@ using Message.Domain.Entities;
 using Message.Infrastructure.Context;
 using Message.Infrastructure.Providers;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Message.Infrastructure.Repositories
 {
@@ -25,8 +20,9 @@ namespace Message.Infrastructure.Repositories
         public async Task<bool> AddUpdate(Guid id, string connectionId)
         {
             var isExist = false;
-            var userAlreadyExists = _dbContext.UserConnectionInfos.SingleOrDefault(s=>s.Id == id);
-            if(userAlreadyExists == null) {
+            var userAlreadyExists = _dbContext.UserConnectionInfos.SingleOrDefault(s => s.Id == id);
+            if (userAlreadyExists == null)
+            {
 
                 var entity = new UserConnectionInfo()
                 {
@@ -42,7 +38,7 @@ namespace Message.Infrastructure.Repositories
                 isExist = true;
                 userAlreadyExists.ConnectionId = connectionId;
             }
-            
+
             await _dbContext.SaveChangesAsync();
             return isExist;
         }
@@ -50,7 +46,7 @@ namespace Message.Infrastructure.Repositories
         public async Task Remove(Guid id)
         {
             var userAlreadyExists = _dbContext.UserConnectionInfos.SingleOrDefault(s => s.Id == id);
-            if(userAlreadyExists != null)
+            if (userAlreadyExists != null)
             {
                 _dbContext.UserConnectionInfos.Remove(userAlreadyExists);
                 await _dbContext.SaveChangesAsync();
@@ -60,13 +56,13 @@ namespace Message.Infrastructure.Repositories
 
         public async Task<List<ChatUserModel>> GetAllUsersExceptThis(Guid id)
         {
-            var users = await _dbContext.UserConnectionInfos.Where(w => w.Id != id).Select(s=> new ChatUserModel() {Id = s.Id, Name = "", ConnectionId = s.ConnectionId }).ToListAsync();
+            var users = await _dbContext.UserConnectionInfos.Where(w => w.Id != id).Select(s => new ChatUserModel() { Id = s.Id, Name = "", ConnectionId = s.ConnectionId }).ToListAsync();
             var userNames = await _userGrpcProvider.GetUsersNames(users.Select(s => s.Id).ToList());
 
             foreach (var user in userNames)
             {
                 var u = users.SingleOrDefault(s => s.Id == user.Id);
-                if(u != null)
+                if (u != null)
                     u.Name = user.Name;
             }
             return users;

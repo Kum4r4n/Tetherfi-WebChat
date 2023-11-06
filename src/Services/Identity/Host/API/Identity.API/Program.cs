@@ -7,7 +7,6 @@ using Identity.Infrastructure.Context;
 using Identity.Infrastructure.Providers;
 using Identity.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
