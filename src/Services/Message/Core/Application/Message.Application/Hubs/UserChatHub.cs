@@ -44,10 +44,14 @@ namespace Message.Application.Hubs
                  "{Joined user name}"
                 );
             }
-            
+            var userList = await _userInforrepository.GetAllUsersExceptThis(Guid.Parse(Context.User!.Identity!.Name ?? default));
+
+            //need to find all user name
+
+
             await Clients.Client(Context.ConnectionId).SendAsync(
             "OnlineUsers",
-            _userInforrepository.GetAllUsersExceptThis(Guid.Parse(Context.User!.Identity!.Name ?? default))
+            userList
              );
         }
 

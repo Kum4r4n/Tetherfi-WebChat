@@ -2,6 +2,8 @@ using Common.Authentication;
 using Message.Application.Hubs;
 using Message.Application.Interfaces.Repositories;
 using Message.Infrastructure.Context;
+using Message.Infrastructure.Proto;
+using Message.Infrastructure.Providers;
 using Message.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
 
 
 //services
+builder.Services.AddScoped<UserGrpcProvider>();
+builder.Services.AddGrpcClient<UserService.UserServiceClient>(opt => opt.Address = new Uri("https://localhost:44370"));
 
 
 //repositories

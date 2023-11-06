@@ -14,6 +14,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
+import { StoreModule } from '@ngrx/store';
+import { directMessageStoreName } from './Actions/directmessages.selectors';
+import { directMessagesReducer } from './Actions/directmessages.reducer';
+import { MessageService } from './Services/message.service';
+
 
 
 @NgModule({
@@ -33,10 +38,13 @@ import { ProfileComponent } from './profile/profile.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({}),
+    StoreModule.forFeature(directMessageStoreName, directMessagesReducer),
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports : [ChatroomComponent]
 })
 export class AppModule { }

@@ -6,6 +6,8 @@ import * as signalR from '@microsoft/signalr';
 import { ChatUserModel } from '../Models/ChatUserModel';
 import * as directMessagesAction from '../Actions/directmessage.action';
 import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { SendMessage } from '../Models/SendMessage';
 
 
 @Injectable({
@@ -17,18 +19,57 @@ export class MessageService {
     private headers: HttpHeaders | undefined;
     private token: string | null = '';
 
+    
+    private users = new BehaviorSubject<any[]>([]);
+    data$ = this.users.asObservable();
+
+    private chatsB = new BehaviorSubject<any[]>([]);
+    chats$ = this.chatsB.asObservable();
+
+    chatMessages : any[] = [];
+
     constructor(private tokenService : TokenService,private store: Store<any>){
         this.headers = new HttpHeaders();
         this.headers = this.headers.set('Content-Type', 'application/json');
         this.headers = this.headers.set('Accept', 'application/json');
+        //this.init();
     }
 
-    private init(): void {
+    init(): void {
         
         this.token = this.tokenService.getToken();
+        this.initHub();
        
     }
 
+    leave(): void {
+      if (this.hubConnection) {
+        this.hubConnection.invoke('Leave');
+      }
+    }
+  
+    join(): void {
+      console.log('DMS: send join');
+      if (this.hubConnection) {
+        this.hubConnection.invoke('Join');
+      }
+    }
+
+    SendDirectMessage(model : SendMessage): void {
+
+      this.chatMessages.push(this.chatsB.value)
+      this.chatMessages.push(model.message);
+
+      this.chatsB.next(this.chatMessages );
+      this.chatMessages = [];
+
+      console.log('DMS: send join');
+      if (this.hubConnection) {
+        this.hubConnection.invoke('SendDirectMessage', model.message, model.targetUserId);
+      }
+    }
+
+   
     private initHub(): void {
        
      
@@ -40,7 +81,10 @@ export class MessageService {
           const url = 'https://localhost:7265/';
      
           this.hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl(`${url}userchathub${tokenValue}`)
+            .withUrl(`${url}userchathub${tokenValue}`,{
+              skipNegotiation: true,
+              transport: signalR.HttpTransportType.WebSockets
+            })
             .configureLogging(signalR.LogLevel.Information)
             .build();
      
@@ -59,11 +103,12 @@ export class MessageService {
           this.hubConnection.on('OnlineUsers', (onlineUsers: ChatUserModel[]) => {
             console.log('DMS: OnlineUsers received');
             console.log(onlineUsers);
-            this.store.dispatch(
-              directMessagesAction.receivedOnlineUsersAction({
-                payload: onlineUsers,
-              })
-            );
+            this.users.next(onlineUsers);
+            // this.store.dispatch(
+            //   directMessagesAction.receivedOnlineUsersAction({
+            //     payload: onlineUsers,
+            //   })
+            // );
           });
      
           this.hubConnection.on('Joined', (onlineUser: ChatUserModel) => {
@@ -75,11 +120,10 @@ export class MessageService {
             'SendDM',
             (message: string, user: ChatUserModel) => {
               console.log('DMS: SendDM received');
-              this.store.dispatch(
-                directMessagesAction.receivedDirectMessageForUserAction({
-                  payload: {  user, message },
-                })
-              );
+              this.chatMessages.push(this.chatsB.value)
+              this.chatMessages.push(message);
+              this.chatsB.next(this.chatMessages );
+              this.chatMessages = [];
             }
           );
      

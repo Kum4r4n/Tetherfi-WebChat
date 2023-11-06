@@ -4,6 +4,7 @@ using Identity.Application.Interfaces.Services;
 using Identity.Application.Services;
 using Identity.Infrastructure.Configuration;
 using Identity.Infrastructure.Context;
+using Identity.Infrastructure.Providers;
 using Identity.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddGrpc();
+
 
 //repos
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -47,7 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.MapGrpcService<UserGrpcProvider>();
 app.UseHttpsRedirection();
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

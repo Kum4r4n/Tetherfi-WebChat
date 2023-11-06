@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "Message.Infrastructure.Proto";
+
+service UserService{
+		
+	rpc GetUsersNames(UserRequest) returns (UserResponse);
+	
+}
+
+message UserResponse{
+	string message = 1;
+}
+
+message UserRequest {
+	string reqMessage = 1;
+}

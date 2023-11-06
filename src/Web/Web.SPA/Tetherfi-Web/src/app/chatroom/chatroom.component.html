@@ -3,4 +3,56 @@
     <span>Chatroom</span>
     
     <span><a routerLink="/profile" class="btn btn-link">Profile</a></span>
+    <a mat-button (click)="Join()">Join</a>
 </mat-toolbar>
+
+
+<div class="full-width" >
+    <div class="left-navigation-container">
+      <nav >
+        <mat-list>
+          <mat-list-item *ngFor="let onlineuser of onlineUsers$">
+            <a mat-button (click)="selectChat(onlineuser)">{{
+              onlineuser.name
+            }}</a>
+          </mat-list-item>
+        </mat-list>
+      </nav>
+    </div>
+    <div class="column-container content-container">
+      <div>
+        <div class="row-container info-bar">
+          <h3 style="padding-left: 20px">{{ selectedOnlineUserName }}</h3>
+          <a
+            mat-button
+            (click)="sendMessage()"
+            *ngIf=" selectedOnlineUserName && message !== ''"
+            >SEND</a
+          >
+        </div>
+      </div>
+   
+      <div class="content" *ngIf="selectedOnlineUserId">
+        <mat-form-field style="width: 95%">
+          <textarea
+            matInput
+            placeholder="your message"
+            [(ngModel)]="message"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+          ></textarea>
+        </mat-form-field>
+   
+        <mat-chip-list class="mat-chip-list-stacked">
+          <ng-container *ngFor="let directMessage of chatMessages$">
+            <ng-container *ngIf="true">
+              <mat-chip style="width: 95%">
+                {{ directMessage }}
+              </mat-chip>
+            </ng-container>
+          </ng-container>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>

@@ -39,5 +39,11 @@ namespace Identity.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return data.Entity;
         }
+
+        public async Task<List<User>> GetUserNames(List<Guid> userIds)
+        {
+            var data = await _dbContext.Users.Where(s=> userIds.Contains(s.Id)).ToListAsync();
+            return data;
+        }
     }
 }

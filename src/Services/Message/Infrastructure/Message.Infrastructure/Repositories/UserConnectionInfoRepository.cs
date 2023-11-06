@@ -1,6 +1,8 @@
 ﻿using Message.Application.Interfaces.Repositories;
+using Message.Application.Models;
 using Message.Domain.Entities;
 using Message.Infrastructure.Context;
+using Message.Infrastructure.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,9 +15,11 @@ namespace Message.Infrastructure.Repositories
     public class UserConnectionInfoRepository : IUserConnectionInfoRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public UserConnectionInfoRepository(ApplicationDbContext dbContext)
+        private readonly UserGrpcProvider _userGrpcProvider;
+        public UserConnectionInfoRepository(ApplicationDbContext dbContext, UserGrpcProvider userGrpcProvider)
         {
             _dbContext = dbContext;
+            _userGrpcProvider = userGrpcProvider;
         }
 
         public async Task<bool> AddUpdate(Guid id, string connectionId)
@@ -54,9 +58,17 @@ namespace Message.Infrastructure.Repositories
 
         }
 
-        public IEnumerable<UserConnectionInfo> GetAllUsersExceptThis(Guid id)
+        public async Task<List<ChatUserModel>> GetAllUsersExceptThis(Guid id)
         {
-            var users = _dbContext.UserConnectionInfos.Where(w => w.Id != id).AsEnumerable();
+            var users = await _dbContext.UserConnectionInfos.Where(w => w.Id != id).Select(s=> new ChatUserModel() {Id = s.Id, Name = "", ConnectionId = s.ConnectionId }).ToListAsync();
+            var userNames = await _userGrpcProvider.GetUsersNames(users.Select(s => s.Id).ToList());
+
+            foreach (var user in userNames)
+            {
+                var u = users.SingleOrDefault(s => s.Id == user.Id);
+                if(u != null)
+                    u.Name = user.Name;
+            }
             return users;
         }
 
