@@ -18,7 +18,7 @@ namespace Message.Application.Hubs
             _chatsRepository = chatsRepository;
         }
 
-        public async Task ListenMessage(string connectionId, Chat chat )
+        public async Task ListenMessage(string connectionId, Chat chat)
         {
             await Clients.Client(connectionId).SendAsync("ListenMessage", chat);
         }
@@ -53,7 +53,7 @@ namespace Message.Application.Hubs
                  userData.Name
                 );
             }
-            
+
         }
     }
 }

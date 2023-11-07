@@ -2,11 +2,6 @@
 using Message.Domain.Entities;
 using Message.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Message.Infrastructure.Repositories
 {
@@ -22,7 +17,7 @@ namespace Message.Infrastructure.Repositories
         public async Task<Chat> AddChat(string message, Guid partnerId, Guid userId)
         {
             var exisitingChatRoom = await _dbContext.Chats.Where(x => x.ChatRoomId.Contains(userId.ToString()) && x.ChatRoomId.Contains(partnerId.ToString())).ToListAsync();
-            var chatRoomId = exisitingChatRoom?.FirstOrDefault()?.ChatRoomId ?? partnerId+"_"+userId;
+            var chatRoomId = exisitingChatRoom?.FirstOrDefault()?.ChatRoomId ?? partnerId + "_" + userId;
             var chatRoom = new Chat()
             {
                 ChatRoomId = chatRoomId,

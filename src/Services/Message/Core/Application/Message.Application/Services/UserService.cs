@@ -1,12 +1,7 @@
 ﻿using Message.Application.Interfaces;
 using Message.Application.Interfaces.Repositories;
 using Message.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Message.Application.Services
 {
@@ -32,16 +27,17 @@ namespace Message.Application.Services
             var chats = await _chatsRepository.GetChats(Guid.Parse(user.Identity.Name), partnerId);
             var response = new ChatRoomModel()
             {
-                 ParterId = partnerId,
-                 PartnerConnectionId = partnerUser.ConnectionId,
-                 PartnerName = partnerUser.Name,
-                 Chats = chats == null ? new List<ChatModel>() : chats.Select(s=> new ChatModel() {
+                ParterId = partnerId,
+                PartnerConnectionId = partnerUser.ConnectionId,
+                PartnerName = partnerUser.Name,
+                Chats = chats == null ? new List<ChatModel>() : chats.Select(s => new ChatModel()
+                {
                     Id = s.Id,
                     ChatRoomId = s.ChatRoomId,
                     Message = s.Message,
                     CreatedDateTime = s.CreatedDateTime,
                     SenderId = s.SenderId,
-                 }).ToList()
+                }).ToList()
             };
 
             return response;

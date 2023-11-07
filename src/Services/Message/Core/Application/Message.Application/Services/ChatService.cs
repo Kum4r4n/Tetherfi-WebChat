@@ -1,12 +1,7 @@
 ﻿using Message.Application.Hubs;
 using Message.Application.Interfaces;
 using Message.Application.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Message.Application.Services
 {

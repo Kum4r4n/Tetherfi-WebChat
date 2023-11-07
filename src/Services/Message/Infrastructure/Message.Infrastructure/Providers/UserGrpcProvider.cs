@@ -1,5 +1,4 @@
 ﻿using Message.Application.Models;
-using Message.Infrastructure.Proto;
 using System.Text.Json;
 
 namespace Message.Infrastructure.Providers

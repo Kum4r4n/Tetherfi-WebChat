@@ -4,7 +4,6 @@ using Message.Application.Interfaces;
 using Message.Application.Interfaces.Repositories;
 using Message.Application.Services;
 using Message.Infrastructure.Context;
-using Message.Infrastructure.Proto;
 using Message.Infrastructure.Providers;
 using Message.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;

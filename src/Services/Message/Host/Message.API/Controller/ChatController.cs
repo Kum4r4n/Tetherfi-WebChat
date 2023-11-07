@@ -1,6 +1,5 @@
 ﻿using Message.Application.Interfaces;
 using Message.Application.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Message.API.Controller
