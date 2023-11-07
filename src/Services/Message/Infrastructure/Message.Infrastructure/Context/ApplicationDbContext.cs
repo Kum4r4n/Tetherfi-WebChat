@@ -11,5 +11,6 @@ namespace Message.Infrastructure.Context
         }
 
         public DbSet<UserConnectionInfo> UserConnectionInfos { get; set; }
+        public DbSet<Chat> Chats { get; set; }
     }
 }

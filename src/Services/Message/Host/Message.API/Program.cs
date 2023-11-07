@@ -1,6 +1,8 @@
 using Common.Authentication;
 using Message.Application.Hubs;
+using Message.Application.Interfaces;
 using Message.Application.Interfaces.Repositories;
+using Message.Application.Services;
 using Message.Infrastructure.Context;
 using Message.Infrastructure.Proto;
 using Message.Infrastructure.Providers;
@@ -23,13 +25,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
 
 //services
 builder.Services.AddScoped<UserGrpcProvider>();
-builder.Services.AddGrpcClient<UserService.UserServiceClient>(opt => opt.Address = new Uri("https://localhost:44370"));
+builder.Services.AddScoped<IUserService, Message.Application.Services.UserService>();
+builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<UserChatHub>();
+builder.Services.AddGrpcClient<Message.Infrastructure.Proto.UserService.UserServiceClient>(opt => opt.Address = new Uri("https://localhost:44370"));
 
 
 //repositories
 builder.Services.AddScoped<IUserConnectionInfoRepository, UserConnectionInfoRepository>();
+builder.Services.AddScoped<IChatsRepository, ChatsRepository>();
 
-
+builder.Services.AddCors();
 //settings
 builder.Services.AddAuth("Tetherfi-aADf3GDsMEuVjphnL5c6moW7OM8biQgp99JXeGgp");
 
@@ -43,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuth();
 
 app.MapControllers();

@@ -9,5 +9,6 @@ namespace Message.Application.Interfaces.Repositories
         Task Remove(Guid id);
         Task<List<ChatUserModel>> GetAllUsersExceptThis(Guid id);
         Task<UserConnectionInfo> GetUserInfo(Guid id);
+        Task<ChatUserModel> GetUserData(Guid id);
     }
 }

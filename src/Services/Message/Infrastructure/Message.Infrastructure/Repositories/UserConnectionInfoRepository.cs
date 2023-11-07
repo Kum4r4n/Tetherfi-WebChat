@@ -68,6 +68,22 @@ namespace Message.Infrastructure.Repositories
             return users;
         }
 
+        public async Task<ChatUserModel> GetUserData(Guid id)
+        {
+            var user = await _dbContext.UserConnectionInfos.SingleOrDefaultAsync(s => s.Id == id);
+            var userNames = await _userGrpcProvider.GetUsersNames(new List<Guid>() { user.Id });
+
+            var userModel = new ChatUserModel()
+            {
+                Id = user.Id,
+                Name = userNames.FirstOrDefault().Name,
+                ConnectionId = user.ConnectionId
+            };
+
+
+            return userModel;
+        }
+
         public async Task<UserConnectionInfo> GetUserInfo(Guid id)
         {
             var user = await _dbContext.UserConnectionInfos.SingleOrDefaultAsync(s => s.Id == id);

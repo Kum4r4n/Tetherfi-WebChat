@@ -8,6 +8,8 @@ import * as directMessagesAction from '../Actions/directmessage.action';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SendMessage } from '../Models/SendMessage';
+import { ChatModel } from '../Models/ChatModel';
+import { HttpService } from './Http.service';
 
 
 @Injectable({
@@ -28,7 +30,7 @@ export class MessageService {
 
     chatMessages : any[] = [];
 
-    constructor(private tokenService : TokenService,private store: Store<any>){
+    constructor(private tokenService : TokenService,private store: Store<any>, private httpService : HttpService){
         this.headers = new HttpHeaders();
         this.headers = this.headers.set('Content-Type', 'application/json');
         this.headers = this.headers.set('Accept', 'application/json');
@@ -42,11 +44,6 @@ export class MessageService {
        
     }
 
-    leave(): void {
-      if (this.hubConnection) {
-        this.hubConnection.invoke('Leave');
-      }
-    }
   
     join(): void {
       console.log('DMS: send join');
@@ -54,6 +51,16 @@ export class MessageService {
         this.hubConnection.invoke('Join');
       }
     }
+
+
+    SendMessage(data : any){
+
+      if (this.hubConnection) {
+        this.hubConnection.invoke('SendMessage', data.message, data.partnerId);
+      }
+
+    }
+
 
     SendDirectMessage(model : SendMessage): void {
 
@@ -88,7 +95,12 @@ export class MessageService {
             .configureLogging(signalR.LogLevel.Information)
             .build();
      
-          this.hubConnection.start().catch((err) => console.error(err.toString()));
+          this.hubConnection.start().then(() => {
+
+            this.join();
+          }).catch((err) => console.error(err.toString()));
+
+        
      
           this.hubConnection.on('NewOnlineUser', (onlineUser: ChatUserModel) => {
             console.log('DMS: NewOnlineUser received');
@@ -100,39 +112,29 @@ export class MessageService {
             );
           });
      
-          this.hubConnection.on('OnlineUsers', (onlineUsers: ChatUserModel[]) => {
-            console.log('DMS: OnlineUsers received');
-            console.log(onlineUsers);
-            this.users.next(onlineUsers);
-            // this.store.dispatch(
-            //   directMessagesAction.receivedOnlineUsersAction({
-            //     payload: onlineUsers,
-            //   })
-            // );
+          this.hubConnection.on('ListenMessage', (chatModel: ChatModel) => {
+            this.HandleIncomingChat(chatModel);
           });
-     
-          this.hubConnection.on('Joined', (onlineUser: ChatUserModel) => {
-            console.log('DMS: Joined received');
-            console.log(onlineUser);
-          });
-     
-          this.hubConnection.on(
-            'SendDM',
-            (message: string, user: ChatUserModel) => {
-              console.log('DMS: SendDM received');
-              this.chatMessages.push(this.chatsB.value)
-              this.chatMessages.push(message);
-              this.chatsB.next(this.chatMessages );
-              this.chatMessages = [];
-            }
-          );
-     
-          this.hubConnection.on('UserLeft', (name: string) => {
-            console.log('DMS: UserLeft received');
-            this.store.dispatch(
-              directMessagesAction.receivedUserLeftAction({ payload: name })
-            );
-          });
-        
+
+          
       }
+
+   HandleIncomingChat(chatModel: ChatModel){
+      var chatroomIdTemp = this.tokenService.getChatRoomId() ?? "";
+      var splits = chatroomIdTemp.split('_')
+      if(chatModel.chatRoomId.includes(splits[0]) && chatModel.chatRoomId.includes(splits[1])){
+
+        var olddata = this.httpService.chats.value;
+        olddata.forEach(f=> this.chatMessages.push(f));
+        this.chatMessages.push(chatModel);
+        var soredChats = this.chatMessages.sort((a, b) => new Date(a.createdDateTime).getTime() - new Date(b.createdDateTime).getTime());
+        this.httpService.chats.next(soredChats);
+        this.chatMessages = [];
+
+      }
+   }
+
+   decode(payload : any) {
+    return JSON.parse(atob(payload));
+  }
 }

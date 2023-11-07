@@ -18,6 +18,8 @@ import { StoreModule } from '@ngrx/store';
 import { directMessageStoreName } from './Actions/directmessages.selectors';
 import { directMessagesReducer } from './Actions/directmessages.reducer';
 import { MessageService } from './Services/message.service';
+import { ChatRoomViewComponent } from './chat-room-view/chat-room-view.component';
+
 
 
 
@@ -28,6 +30,7 @@ import { MessageService } from './Services/message.service';
     RegisterComponent,
     ChatroomComponent,
     ProfileComponent,
+    ChatRoomViewComponent
 
   ],
   imports: [

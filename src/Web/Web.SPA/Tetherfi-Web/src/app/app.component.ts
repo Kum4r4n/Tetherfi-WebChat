@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MessageService } from './Services/message.service';
+
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { MessageService } from './Services/message.service';
 export class AppComponent {
   title = 'Tetherfi-Web';
 
-  constructor(private messageService: MessageService){
-    this.messageService.init();
+  constructor(){
+    
   }
 }

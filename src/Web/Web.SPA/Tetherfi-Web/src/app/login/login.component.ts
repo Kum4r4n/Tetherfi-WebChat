@@ -4,6 +4,7 @@ import { UserserviceService } from '../Services/userservice.service';
 import { LoginModel } from '../Models/LoginModel';
 import { Router } from '@angular/router';
 import { TokenService } from '../Services/token.service';
+import { MessageService } from '../Services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { TokenService } from '../Services/token.service';
 })
 export class LoginComponent implements OnInit  {
   
-  constructor(private userservice: UserserviceService,private router: Router, private tokenService : TokenService) {}
+  constructor(private userservice: UserserviceService,private router: Router, private tokenService : TokenService, private messageService : MessageService) {}
 
   ngOnInit(): void {
     var token = this.tokenService.getToken();
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit  {
       data => {
       var token = data["token"];
       this.tokenService.setToken(token);
+      this.messageService.init();
       this.router.navigate(["chatRoom"]);
     },
     (error) => {
