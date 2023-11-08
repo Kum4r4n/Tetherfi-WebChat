@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ChatroomComponent } from './chatroom/chatroom.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatRoomViewComponent } from './chat-room-view/chat-room-view.component';
 

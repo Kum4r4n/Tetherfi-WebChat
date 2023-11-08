@@ -4,7 +4,6 @@ import { HubConnection } from '@microsoft/signalr';
 import { TokenService } from './token.service';
 import * as signalR from '@microsoft/signalr';
 import { ChatUserModel } from '../Models/ChatUserModel';
-import * as directMessagesAction from '../Actions/directmessage.action';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SendMessage } from '../Models/SendMessage';
@@ -105,11 +104,7 @@ export class MessageService {
           this.hubConnection.on('NewOnlineUser', (onlineUser: ChatUserModel) => {
             console.log('DMS: NewOnlineUser received');
             console.log(onlineUser);
-            this.store.dispatch(
-              directMessagesAction.receivedNewOnlineUserAction({
-                payload: onlineUser,
-              })
-            );
+            
           });
      
           this.hubConnection.on('ListenMessage', (chatModel: ChatModel) => {
