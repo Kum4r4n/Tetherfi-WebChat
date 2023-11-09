@@ -40,6 +40,13 @@ export class ChatRoomViewComponent {
     return JSON.parse(atob(payload));
   }
 
+
+  callVideoCall(){
+
+    
+
+  }
+
   UserSelected(user : any){
    
     this.selecteduserId$ = user.id;
