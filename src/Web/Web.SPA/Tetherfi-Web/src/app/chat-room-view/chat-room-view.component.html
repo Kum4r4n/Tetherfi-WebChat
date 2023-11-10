@@ -32,7 +32,7 @@
                 <li>
                   <img src="https://i.ibb.co/fCzfFJw/person.jpg" alt="" width="40px">
                   <span> {{SelectedUsername$}} </span>
-                  <span (click)="callVideoCall()" >Call video</span>
+                  <span *ngIf="selecteduserId$" (click)="callVideoCall()" >Call video</span>
                 </li>
               </ul>
             </div>

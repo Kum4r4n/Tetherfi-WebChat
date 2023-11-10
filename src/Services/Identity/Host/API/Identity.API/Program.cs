@@ -7,7 +7,7 @@ using Identity.Infrastructure.Context;
 using Identity.Infrastructure.Providers;
 using Identity.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +40,19 @@ builder.Services.AddScoped<Identity.Application.Interfaces.IConfigurationProvide
 builder.Services.AddAuth(tokenSetting.Secret);
 
 builder.Services.AddCors();
+
+builder.WebHost.ConfigureKestrel(option =>
+{
+    option.Listen(IPAddress.Any, 80, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2;
+    });
+
+    option.Listen(IPAddress.Any, 9632, listenOptions => {
+
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+    });
+});
 
 var app = builder.Build();
 

@@ -4,7 +4,10 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "identity.api": "StartDebugging"
+        "identity.api": "StartDebugging",
+        "message.api": "StartDebugging",
+        "signal.api": "StartDebugging",
+        "tetherfi.gateway": "StartDebugging"
       }
     }
   }

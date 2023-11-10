@@ -7,6 +7,7 @@ using Message.Infrastructure.Context;
 using Message.Infrastructure.Providers;
 using Message.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +22,13 @@ builder.Services.AddSignalR();
 //db
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
-
 //services
 builder.Services.AddScoped<UserGrpcProvider>();
 builder.Services.AddScoped<IUserService, Message.Application.Services.UserService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<UserChatHub>();
-builder.Services.AddGrpcClient<Message.Infrastructure.Proto.UserService.UserServiceClient>(opt => opt.Address = new Uri("https://localhost:44370"));
+builder.Services.AddGrpc();
+builder.Services.AddGrpcClient<Message.Infrastructure.Proto.UserService.UserServiceClient>(opt => opt.Address = new Uri(builder.Configuration.GetValue<string>("URLS:Identity")));
 
 
 //repositories
@@ -38,6 +39,19 @@ builder.Services.AddCors();
 //settings
 builder.Services.AddAuth("Tetherfi-aADf3GDsMEuVjphnL5c6moW7OM8biQgp99JXeGgp");
 
+builder.WebHost.ConfigureKestrel(option =>
+{
+    option.Listen(IPAddress.Any, 80, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2;
+    });
+
+    option.Listen(IPAddress.Any, 9633, listenOptions => {
+
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapGrpcService<UserDataGrpcProvider>();
 
 app.UseHttpsRedirection();
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

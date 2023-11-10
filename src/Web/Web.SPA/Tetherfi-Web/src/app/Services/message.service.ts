@@ -61,20 +61,6 @@ export class MessageService {
     }
 
 
-    SendDirectMessage(model : SendMessage): void {
-
-      this.chatMessages.push(this.chatsB.value)
-      this.chatMessages.push(model.message);
-
-      this.chatsB.next(this.chatMessages );
-      this.chatMessages = [];
-
-      console.log('DMS: send join');
-      if (this.hubConnection) {
-        this.hubConnection.invoke('SendDirectMessage', model.message, model.targetUserId);
-      }
-    }
-
    
     private initHub(): void {
        
@@ -84,7 +70,7 @@ export class MessageService {
           console.log(tokenApiHeader)
           let tokenValue = '?token=' + this.token;
      
-          const url = 'https://localhost:7265/';
+          const url = 'http://localhost:2592/api/message-signalr/';
      
           this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl(`${url}userchathub${tokenValue}`,{
@@ -95,7 +81,7 @@ export class MessageService {
             .build();
      
           this.hubConnection.start().then(() => {
-
+            console.log("Hub is connected");
             this.join();
           }).catch((err) => console.error(err.toString()));
 

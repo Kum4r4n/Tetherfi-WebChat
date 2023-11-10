@@ -6,3 +6,24 @@ services:
     build:
       context: .
       dockerfile: src/Services/Identity/Host/API/Identity.API/Dockerfile
+
+  message.api:
+    image: ${DOCKER_REGISTRY-}messageapi
+    build:
+      context: .
+      dockerfile: src/Services/Message/Host/Message.API/Dockerfile
+
+
+  signal.api:
+    image: ${DOCKER_REGISTRY-}signalapi
+    build:
+      context: .
+      dockerfile: src/Services/Signal/Host/Signal.API/Dockerfile
+
+
+  tetherfi.gateway:
+    image: ${DOCKER_REGISTRY-}tetherfigateway
+    build:
+      context: .
+      dockerfile: src/Gateways/Tetherfi.Gateway/Dockerfile
+

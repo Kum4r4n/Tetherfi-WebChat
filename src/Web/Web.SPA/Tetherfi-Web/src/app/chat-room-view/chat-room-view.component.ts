@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { HttpService } from '../Services/Http.service';
 import { TokenService } from '../Services/token.service';
 import { MessageService } from '../Services/message.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CallPopupComponent } from '../call-popup/call-popup.component';
+
 
 @Component({
   selector: 'app-chat-room-view',
@@ -17,10 +20,11 @@ export class ChatRoomViewComponent {
   currentUserId$ : any;
   
   
+ 
 
   userMessage = '';
 
-  constructor(private httpService : HttpService, private tokenService : TokenService, private messageService : MessageService) { }
+  constructor(public dialog: MatDialog, private httpService : HttpService, private tokenService : TokenService, private messageService : MessageService) { }
 
   ngOnInit(): void {
 
@@ -43,7 +47,18 @@ export class ChatRoomViewComponent {
 
   callVideoCall(){
 
-    
+    console.log("Call clicked");
+
+    const dialogRef = this.dialog.open(CallPopupComponent, {
+      width: '25%',
+      height: '65%',
+      data : this.selecteduserId$
+      
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
 
   }
 

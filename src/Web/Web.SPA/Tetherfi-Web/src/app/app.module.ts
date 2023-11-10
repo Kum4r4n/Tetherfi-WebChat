@@ -1,9 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule} from '@angular/material/dialog';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +18,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { StoreModule } from '@ngrx/store';
 import { MessageService } from './Services/message.service';
 import { ChatRoomViewComponent } from './chat-room-view/chat-room-view.component';
+import { CallPopupComponent } from './call-popup/call-popup.component';
 
 
 
@@ -26,7 +29,8 @@ import { ChatRoomViewComponent } from './chat-room-view/chat-room-view.component
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    ChatRoomViewComponent
+    ChatRoomViewComponent,
+    CallPopupComponent
 
   ],
   imports: [
@@ -38,6 +42,7 @@ import { ChatRoomViewComponent } from './chat-room-view/chat-room-view.component
     BrowserAnimationsModule,
     MatCardModule,
     HttpClientModule,
+    MatDialogModule,
     StoreModule.forRoot({}),
    
   ],

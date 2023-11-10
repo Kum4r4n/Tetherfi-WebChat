@@ -29,7 +29,7 @@ import { TokenService } from './token.service';
         headers: headers
       };
 
-      return this.http.post<any>("https://localhost:7265/"+"api/chat" , data ,requestOptions).pipe(map(p=>{
+      return this.http.post<any>("http://localhost:2592/api/message/"+"api/chat" , data ,requestOptions).pipe(map(p=>{
         
       }));
 
@@ -50,7 +50,7 @@ import { TokenService } from './token.service';
 
       var chaArra : any[] = [];
 
-      return this.http.get<any>("https://localhost:7265/"+"api/Users/Chatroom/"+ partnerId ,requestOptions).pipe(map(p=>{
+      return this.http.get<any>("http://localhost:2592/api/message/"+"api/Users/Chatroom/"+ partnerId ,requestOptions).pipe(map(p=>{
         Object.keys(p.chats).forEach(key=> {
           chaArra.push(p.chats[key]);
         });
@@ -77,7 +77,7 @@ import { TokenService } from './token.service';
 
       var usArra : any[] = [];
 
-      return this.http.get<any>("https://localhost:7265/"+"api/Users",requestOptions).pipe(map(p=>{
+      return this.http.get<any>("http://localhost:2592/api/message/"+"api/Users",requestOptions).pipe(map(p=>{
         Object.keys(p).forEach(key=> {
           usArra.push(p[key]);
         });

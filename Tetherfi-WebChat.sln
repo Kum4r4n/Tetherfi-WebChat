@@ -79,6 +79,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Domain", "src\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Infrastructure", "src\Services\Signal\Infrastructure\Signal.Infrastructure\Signal.Infrastructure.csproj", "{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetherfi.Gateway", "src\Gateways\Tetherfi.Gateway\Tetherfi.Gateway.csproj", "{4764084D-DFA1-484B-8E42-9AD91ADD3D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +188,7 @@ Global
 		{5A232297-3EBE-4FA6-B9A5-B1201E0A8A70} = {70EFD864-B209-49A0-A0BF-A0591B216A4F}
 		{D5B38207-551C-4D75-8E5C-B36C8383C51D} = {5C4DF0BC-E6E7-4AF6-8B1C-21FAD101007D}
 		{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661} = {3B673B79-BAB8-4C08-A804-B228CB917656}
+		{4764084D-DFA1-484B-8E42-9AD91ADD3D58} = {37E34787-C654-4B31-9A2D-5B2997F36BB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C81D4ECE-28C8-40E9-BFFA-D18FF2AE0530}
