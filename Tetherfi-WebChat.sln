@@ -71,15 +71,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{5C4DF0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{DFBFCF88-4199-4C22-A3BE-D936F14392A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.API", "src\Services\Signal\Host\Signal.API\Signal.API.csproj", "{1E85CEFC-0709-4890-8FFB-42A2554FA177}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Signal.API", "src\Services\Signal\Host\Signal.API\Signal.API.csproj", "{1E85CEFC-0709-4890-8FFB-42A2554FA177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Application", "src\Services\Signal\Core\Application\Signal.Application\Signal.Application.csproj", "{5A232297-3EBE-4FA6-B9A5-B1201E0A8A70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Signal.Application", "src\Services\Signal\Core\Application\Signal.Application\Signal.Application.csproj", "{5A232297-3EBE-4FA6-B9A5-B1201E0A8A70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Domain", "src\Services\Signal\Core\Domain\Signal.Domain\Signal.Domain.csproj", "{D5B38207-551C-4D75-8E5C-B36C8383C51D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Signal.Domain", "src\Services\Signal\Core\Domain\Signal.Domain\Signal.Domain.csproj", "{D5B38207-551C-4D75-8E5C-B36C8383C51D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signal.Infrastructure", "src\Services\Signal\Infrastructure\Signal.Infrastructure\Signal.Infrastructure.csproj", "{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Signal.Infrastructure", "src\Services\Signal\Infrastructure\Signal.Infrastructure\Signal.Infrastructure.csproj", "{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetherfi.Gateway", "src\Gateways\Tetherfi.Gateway\Tetherfi.Gateway.csproj", "{4764084D-DFA1-484B-8E42-9AD91ADD3D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tetherfi.Gateway", "src\Gateways\Tetherfi.Gateway\Tetherfi.Gateway.csproj", "{4764084D-DFA1-484B-8E42-9AD91ADD3D58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{DA29FE94-4527-410F-A668-0A3A5AEA1FCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.xUnit", "src\Services\Identity\Test\Identity.xUnit\Identity.xUnit.csproj", "{81709A53-74D0-433F-BA0D-F01110169F74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{61F119BB-1B3B-406B-A5FF-29D27D3E6FC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Message.xUnit", "src\Services\Message\Test\Message.xUnit\Message.xUnit.csproj", "{0D9AD3EA-39F9-46DA-9BCC-BD89F4280ABB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +155,14 @@ Global
 		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4764084D-DFA1-484B-8E42-9AD91ADD3D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81709A53-74D0-433F-BA0D-F01110169F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81709A53-74D0-433F-BA0D-F01110169F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81709A53-74D0-433F-BA0D-F01110169F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81709A53-74D0-433F-BA0D-F01110169F74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9AD3EA-39F9-46DA-9BCC-BD89F4280ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9AD3EA-39F9-46DA-9BCC-BD89F4280ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9AD3EA-39F9-46DA-9BCC-BD89F4280ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9AD3EA-39F9-46DA-9BCC-BD89F4280ABB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +205,10 @@ Global
 		{D5B38207-551C-4D75-8E5C-B36C8383C51D} = {5C4DF0BC-E6E7-4AF6-8B1C-21FAD101007D}
 		{6D4D7D13-053A-4B2C-BB9F-25B2A14C8661} = {3B673B79-BAB8-4C08-A804-B228CB917656}
 		{4764084D-DFA1-484B-8E42-9AD91ADD3D58} = {37E34787-C654-4B31-9A2D-5B2997F36BB4}
+		{DA29FE94-4527-410F-A668-0A3A5AEA1FCF} = {D943BAFB-A370-4A10-A6A2-D1AA24927872}
+		{81709A53-74D0-433F-BA0D-F01110169F74} = {DA29FE94-4527-410F-A668-0A3A5AEA1FCF}
+		{61F119BB-1B3B-406B-A5FF-29D27D3E6FC4} = {EFCAB872-0F0A-4CDA-9379-59BAE7BBF4D5}
+		{0D9AD3EA-39F9-46DA-9BCC-BD89F4280ABB} = {61F119BB-1B3B-406B-A5FF-29D27D3E6FC4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C81D4ECE-28C8-40E9-BFFA-D18FF2AE0530}

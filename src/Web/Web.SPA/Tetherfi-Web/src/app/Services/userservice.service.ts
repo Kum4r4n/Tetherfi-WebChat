@@ -19,6 +19,8 @@ export class UserserviceService {
 
   Register(register : any) : Observable<any>{
 
+    console.log("Register");
+
     return this.http.post("http://localhost:2592/api/identity/"+"api/User/Register", register);
   }
 
