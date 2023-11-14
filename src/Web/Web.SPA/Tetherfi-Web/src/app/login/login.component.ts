@@ -32,10 +32,10 @@ export class LoginComponent implements OnInit  {
       this.messageService.init();
       this.router.navigate(["chatRoom"]);
     },
-    (error) => {
+    (errors) => {
 
-      console.error('Error:', error);
-      this.toastr.info(error);
+      console.error('Error:', errors);
+      this.toastr.info(JSON.stringify(errors));
     }
     
     );

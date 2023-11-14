@@ -34,7 +34,7 @@ export class RegisterComponent  implements OnInit{
     (error) => {
 
       console.error('Error:', error);
-      this.toastr.info(error);
+      this.toastr.info(JSON.stringify(error));
     }
     
     );
