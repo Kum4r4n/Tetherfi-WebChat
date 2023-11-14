@@ -44,6 +44,11 @@ export class ChatRoomViewComponent {
     this.messageService.init();
   }
 
+
+  profile(){
+    this.router.navigate(["profile"]);
+  }
+
   decode(payload : any) {
     return JSON.parse(atob(payload));
   }
