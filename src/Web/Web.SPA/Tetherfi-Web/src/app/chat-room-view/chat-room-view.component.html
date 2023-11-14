@@ -1,0 +1,76 @@
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="chat-list-box">
+            <div class="head-box">
+              <ul class="list-inline text-left d-inline-block float-left">
+                <li> <a (click)="profile()" ><img src="https://i.ibb.co/fCzfFJw/person.jpg" alt="" width="40px"> </a> </li>
+              </ul>
+              <ul class="flat-icon list-inline text-right d-inline-block">
+                <li> <a href="#"> Users </a> </li>
+              </ul>
+            </div>
+  
+            <div class="chat-person-list">
+              <ul class="list-inline">
+                <div *ngFor="let user of onlineUsers$">
+                <li> <a (click)="(UserSelected(user))" class="flip"> <img src="https://i.ibb.co/6JpcfrK/p4.png" alt=""> <span> 
+                  {{user.name}}</span>  </a> </li>
+                </div>
+              </ul>
+            </div>
+  
+          </div>
+        </div> <!-- col-md-4 closed -->
+  
+        <div class="col-md-8">
+          <div class="message-box">
+            <div class="head-box-1">
+  
+              <ul class="msg-box list-inline text-left d-inline-block float-left">
+                <li>
+                  <img src="https://i.ibb.co/fCzfFJw/person.jpg" alt="" width="40px">
+                  <span> {{SelectedUsername$}} </span>
+                  <span *ngIf="selecteduserId$" (click)="callVideoCall()" >Call video</span>
+                </li>
+              </ul>
+            </div>
+  
+            <div  class="msg_history">
+              <div *ngFor="let message of chatData$">
+                <div  class="incoming_msg" *ngIf="message.senderId == selecteduserId$">
+                  <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
+                  <div class="received_msg">
+                    <div class="received_withd_msg">
+                      <p>{{message.message}}</p>
+                      <span class="time_date">{{message.createdDateTime}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="outgoing_msg" *ngIf="message.senderId != selecteduserId$">
+                  <div class="sent_msg">
+                    <p>{{message.message}}</p>
+                    <span class="time_date">{{message.createdDateTime}}</span>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+  
+            <div class="send-message">
+              <div class="input-group input-group-lg mb-3">
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" [(ngModel)]="userMessage">
+                
+                <span class="input-group-text" id="inputGroup-sizing-sm" (click)="sendMessage()">Send</span>
+              </div>
+            </div>
+  
+  
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+  

@@ -8,5 +8,6 @@ namespace Identity.Application.Interfaces.Repositories
         Task<User> Update(User user);
         Task<User> Get(string email);
         Task<User> Get(Guid id);
+        Task<List<User>> GetUserNames(List<Guid> userIds);
     }
 }

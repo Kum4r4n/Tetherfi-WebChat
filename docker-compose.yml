@@ -1,8 +1,52 @@
 version: '3.4'
 
 services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    container_name: sqlserver
+    ports:
+        - "7100"
+    environment:
+        - ACCEPT_EULA=Y 
+        - MSSQL_PID=Developer
+        - SA_PASSWORD=8jkGh47hnDw89Haq8LN2
+ 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
     build:
       context: .
       dockerfile: src/Services/Identity/Host/API/Identity.API/Dockerfile
+    depends_on:
+          - sqlserver
+
+  message.api:
+    image: ${DOCKER_REGISTRY-}messageapi
+    build:
+      context: .
+      dockerfile: src/Services/Message/Host/Message.API/Dockerfile
+    depends_on:
+          - sqlserver
+
+
+  signal.api:
+    image: ${DOCKER_REGISTRY-}signalapi
+    build:
+      context: .
+      dockerfile: src/Services/Signal/Host/Signal.API/Dockerfile
+
+
+  tetherfi.gateway:
+    image: ${DOCKER_REGISTRY-}tetherfigateway
+    build:
+      context: .
+      dockerfile: src/Gateways/Tetherfi.Gateway/Dockerfile
+
+  tetherfi.web:
+    image: ${DOCKER_REGISTRY-}tetherfi-web
+    build: 
+        context: ./src/Web/Web.SPA/Tetherfi-Web
+        dockerfile: ./Dockerfile
+    ports:
+      - 4200:80
+

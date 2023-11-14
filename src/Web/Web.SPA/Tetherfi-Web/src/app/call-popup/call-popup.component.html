@@ -1,0 +1,18 @@
+<mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile>
+        <p class="video-description">local:</p>
+        <video style="transform: scale(-1,1);" #local_video [autoplay]="true" [muted]="true"></video>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <p class="video-description">remote:</p>
+        <video #received_video [autoplay]="true" [muted]="true"></video>
+    </mat-grid-tile>
+</mat-grid-list>
+<button mat-raised-button color="primary" (click)="call()">sas</button>
+<button mat-raised-button color="primary" (click)="hangUp()">hangup</button>
+
+
+<button mat-raised-button color="primary" (click)="startLocalVideo()">start local</button>
+<button mat-raised-button color="primary" (click)="pauseLocalVideo()">stop local</button>
+<button mat-raised-button color="primary" (click)="call()" >call</button>
+<button mat-raised-button color="primary" (click)="hangUp()">hangup</button>

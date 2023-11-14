@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "Signal.Infrastructure.Proto";
+
+service UserDataService{
+		
+	rpc  GetUserData(UserDataRequest) returns (UserDataResponse);
+	
+}
+
+message UserDataRequest{
+	string userId = 1;
+}
+
+message UserDataResponse{
+    string data = 1;
+}
