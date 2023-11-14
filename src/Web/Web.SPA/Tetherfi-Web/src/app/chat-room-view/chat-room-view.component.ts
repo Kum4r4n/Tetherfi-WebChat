@@ -4,6 +4,7 @@ import { TokenService } from '../Services/token.service';
 import { MessageService } from '../Services/message.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CallPopupComponent } from '../call-popup/call-popup.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ChatRoomViewComponent {
 
   userMessage = '';
 
-  constructor(public dialog: MatDialog, private httpService : HttpService, private tokenService : TokenService, private messageService : MessageService) { }
+  constructor(private router: Router, public dialog: MatDialog, private httpService : HttpService, private tokenService : TokenService, private messageService : MessageService) { }
 
   ngOnInit(): void {
 
@@ -34,6 +35,9 @@ export class ChatRoomViewComponent {
     });
 
     const token = this.tokenService.getToken() ?? "";
+    if(token == null || token == ""){
+      this.router.navigate(["login"]);
+    }
     const payload = token.split('.')[1];
     let data = this.decode(payload);
     this.currentUserId$ = data["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]

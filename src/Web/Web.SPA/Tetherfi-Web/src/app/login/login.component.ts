@@ -5,6 +5,7 @@ import { LoginModel } from '../Models/LoginModel';
 import { Router } from '@angular/router';
 import { TokenService } from '../Services/token.service';
 import { MessageService } from '../Services/message.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { MessageService } from '../Services/message.service';
 })
 export class LoginComponent implements OnInit  {
   
-  constructor(private userservice: UserserviceService,private router: Router, private tokenService : TokenService, private messageService : MessageService) {}
+  constructor(private toastr: ToastrService, private userservice: UserserviceService,private router: Router, private tokenService : TokenService, private messageService : MessageService) {}
 
   ngOnInit(): void {
     var token = this.tokenService.getToken();
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit  {
     (error) => {
 
       console.error('Error:', error);
+      this.toastr.info(error);
     }
     
     );

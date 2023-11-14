@@ -3,6 +3,7 @@ import { UserserviceService } from '../Services/userservice.service';
 import { Router } from '@angular/router';
 import { RegisterModel } from '../Models/RegisterModel';
 import { TokenService } from '../Services/token.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { TokenService } from '../Services/token.service';
 })
 export class RegisterComponent  implements OnInit{
 
-  constructor(private userservice: UserserviceService,private router: Router, private tokenService : TokenService) {}
+  constructor(private toastr: ToastrService, private userservice: UserserviceService,private router: Router, private tokenService : TokenService) {}
 
   ngOnInit(): void {
     var token = this.tokenService.getToken();
@@ -33,6 +34,7 @@ export class RegisterComponent  implements OnInit{
     (error) => {
 
       console.error('Error:', error);
+      this.toastr.info(error);
     }
     
     );

@@ -5,6 +5,7 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -44,6 +45,7 @@ import { CallPopupComponent } from './call-popup/call-popup.component';
     HttpClientModule,
     MatDialogModule,
     StoreModule.forRoot({}),
+    ToastrModule.forRoot(),
    
   ],
   providers: [MessageService],
