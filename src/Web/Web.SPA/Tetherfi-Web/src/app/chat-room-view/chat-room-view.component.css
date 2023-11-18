@@ -7,6 +7,12 @@ section{
 	width: 2px;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+  }
 
 ::-webkit-scrollbar-thumb {
 	background: #000;

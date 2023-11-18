@@ -22,6 +22,11 @@ namespace Signal.Application.Hubs
             _userDataRepository = userDataRepository;
         }
 
+        public async Task<string> GetConnectionId()
+        {
+            return Context.ConnectionId;
+        }
+
         public async Task SendSignal(Message data, Guid partnerId)
         {
             var userData = await _userDataRepository.GetUserData(partnerId);

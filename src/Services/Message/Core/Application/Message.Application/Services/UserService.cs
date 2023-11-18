@@ -37,6 +37,9 @@ namespace Message.Application.Services
                     Message = s.Message,
                     CreatedDateTime = s.CreatedDateTime,
                     SenderId = s.SenderId,
+                    ImageBytes = s.ImageBytes,
+                    IsAttachement = s.IsAttachement
+                    
                 }).ToList()
             };
 

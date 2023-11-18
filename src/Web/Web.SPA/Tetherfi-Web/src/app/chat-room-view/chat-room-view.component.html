@@ -43,14 +43,24 @@
                   <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
                   <div class="received_msg">
                     <div class="received_withd_msg">
-                      <p>{{message.message}}</p>
+                      <div *ngIf="message.isAttachement">
+                        <img [src]="message.imageSrc" alt="Image">
+                      </div>
+                      <div *ngIf="!message.isAttachement">
+                        <p>{{message.message}}</p>
+                      </div>
                       <span class="time_date">{{message.createdDateTime}}</span>
                     </div>
                   </div>
                 </div>
                 <div class="outgoing_msg" *ngIf="message.senderId != selecteduserId$">
                   <div class="sent_msg">
-                    <p>{{message.message}}</p>
+                    <div *ngIf="message.isAttachement">
+                      <img [src]="message.imageSrc" alt="Image">
+                    </div>
+                    <div *ngIf="!message.isAttachement">
+                      <p>{{message.message}}</p>
+                    </div>
                     <span class="time_date">{{message.createdDateTime}}</span>
                   </div>
                 </div>
@@ -63,6 +73,11 @@
                 <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" [(ngModel)]="userMessage">
                 
                 <span class="input-group-text" id="inputGroup-sizing-sm" (click)="sendMessage()">Send</span>
+                <span> <input type="file"  title="" (change)="onFileSelected($event)"/> </span>
+                <!-- <form id="imageForm">
+                  <input type="file" (change)="onFileSelected($event)"/>
+                  <button type="button" (click)="uploadImage()">Upload Image</button>
+                </form> -->
               </div>
             </div>
   

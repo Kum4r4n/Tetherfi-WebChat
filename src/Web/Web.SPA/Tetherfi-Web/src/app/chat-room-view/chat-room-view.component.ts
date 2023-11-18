@@ -21,7 +21,7 @@ export class ChatRoomViewComponent {
   currentUserId$ : any;
   
   
- 
+  selectedFile: File | null = null;
 
   userMessage = '';
 
@@ -44,6 +44,28 @@ export class ChatRoomViewComponent {
     this.messageService.init();
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] as File;
+    this.uploadImage();
+  }
+
+  uploadImage() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+
+      this.httpService.SendImage(formData, this.selecteduserId$ ).subscribe(
+        (response) => {
+          console.log('Image uploaded successfully!', response);
+        },
+        (error) => {
+          console.error('Error uploading image:', error);
+        }
+      );
+    } else {
+      console.warn('No file selected.');
+    }
+  }
 
   profile(){
     this.router.navigate(["profile"]);

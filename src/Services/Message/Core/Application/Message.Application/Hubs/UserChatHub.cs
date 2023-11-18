@@ -18,6 +18,13 @@ namespace Message.Application.Hubs
             _chatsRepository = chatsRepository;
         }
 
+        //public async Task SendSignal(Message data, Guid partnerId)
+        //{
+        //    var userData = await _userInforrepository.GetUserData(partnerId);
+        //    var reqUserData = await _userInforrepository.GetUserData(Guid.Parse(Context.User.Identity.Name));
+        //    await Clients.Client(userData.ConnectionId).SendAsync("ReceiveSignal", data, reqUserData);
+        //}
+
         public async Task ListenMessage(string connectionId, Chat chat)
         {
             await Clients.Client(connectionId).SendAsync("ListenMessage", chat);

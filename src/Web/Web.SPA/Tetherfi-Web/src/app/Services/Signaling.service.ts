@@ -39,6 +39,13 @@ import { Subject } from 'rxjs';
           }
     }
 
+    getConnectionId(){
+      if (this.hubConnection) {
+        this.hubConnection.invoke('GetConnectionId').then(function (connectionId) {
+          console.log(connectionId);
+      });;
+      }
+    }
 
     private initHub(): void {
        
@@ -61,6 +68,7 @@ import { Subject } from 'rxjs';
         this.hubConnection.start().then(() => {
 
             console.log("Connected sucessfull")
+            this.getConnectionId();
 
             //apply initial run
          

@@ -22,5 +22,16 @@ namespace Message.API.Controller
             await _chatService.ReceiveMessage(User, meesageRequestModel.Message, meesageRequestModel.PartnerId);
             return Ok();
         }
+
+        [HttpPost("image/{partnerId}")]
+        public async Task<IActionResult> SendImageMessage(Guid partnerId)
+        {
+            var file = Request.Form.Files[0];
+            var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            var imageData = memoryStream.ToArray();
+            await _chatService.SendImageChat(User, partnerId, imageData);
+            return Ok();
+        }
     }
 }

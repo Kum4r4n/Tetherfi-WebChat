@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SendMessage } from '../Models/SendMessage';
 import { ChatModel } from '../Models/ChatModel';
 import { HttpService } from './Http.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Injectable({
@@ -29,7 +30,7 @@ export class MessageService {
 
     chatMessages : any[] = [];
 
-    constructor(private tokenService : TokenService,private store: Store<any>, private httpService : HttpService){
+    constructor(private tokenService : TokenService,private store: Store<any>, private httpService : HttpService,private sanitizer: DomSanitizer){
         this.headers = new HttpHeaders();
         this.headers = this.headers.set('Content-Type', 'application/json');
         this.headers = this.headers.set('Accept', 'application/json');
@@ -59,6 +60,7 @@ export class MessageService {
       }
 
     }
+    
 
 
    
@@ -109,6 +111,15 @@ export class MessageService {
         olddata.forEach(f=> this.chatMessages.push(f));
         this.chatMessages.push(chatModel);
         var soredChats = this.chatMessages.sort((a, b) => new Date(a.createdDateTime).getTime() - new Date(b.createdDateTime).getTime());
+        soredChats.forEach(f=> {
+
+          if(f.isAttachement){
+
+            f.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' 
+                 + f.imageBytes);
+          }
+
+        });
         this.httpService.chats.next(soredChats);
         this.chatMessages = [];
 
@@ -117,5 +128,10 @@ export class MessageService {
 
    decode(payload : any) {
     return JSON.parse(atob(payload));
+  }
+
+  convertBytesToImageUrl(bytes: Uint8Array): string {
+    const blob = new Blob([bytes], { type: 'image/jpeg' });
+    return URL.createObjectURL(blob);
   }
 }

@@ -6,5 +6,6 @@ namespace Message.Application.Interfaces.Repositories
     {
         Task<List<Chat>> GetChats(Guid userId, Guid partnerId);
         Task<Chat> AddChat(string message, Guid partnerId, Guid userId);
+        Task<Chat> AddImageChat(Guid partnerId, Guid userId, byte[] imageBytes);
     }
 }

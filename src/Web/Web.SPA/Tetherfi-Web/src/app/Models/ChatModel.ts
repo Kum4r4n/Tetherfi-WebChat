@@ -4,4 +4,8 @@ export class ChatModel{
     senderId : string = "";
     message : string = "";
     createdDateTime : any = "";
+    isAttachement : boolean = false;
+    imageBytes : any;
+    imageSrc : any;
+
 }

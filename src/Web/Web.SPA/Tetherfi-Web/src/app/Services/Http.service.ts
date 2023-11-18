@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, map } from 'rxjs';
 import { TokenService } from './token.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,26 @@ import { TokenService } from './token.service';
     chats = new BehaviorSubject<any[]>([]);
     chatDatda$ = this.chats.asObservable();
 
-    constructor(private http: HttpClient, private tokenService : TokenService) { }
+    constructor(private http: HttpClient, private tokenService : TokenService,private sanitizer: DomSanitizer) { }
+
+
+    SendImage(data : any, partnerId : string){
+
+      var token = this.tokenService.getToken();
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      const requestOptions = {
+        headers: headers
+      };
+
+      return this.http.post<any>("http://localhost:2592/api/message/"+"api/chat/image/"+ partnerId, data ,requestOptions).pipe(map(p=>{
+        
+    }));
+      
+    }
 
 
     AddMessage(data : any){
@@ -56,6 +76,15 @@ import { TokenService } from './token.service';
         });
 
         var soredChats = chaArra.sort((a, b) => new Date(a.createdDateTime).getTime() - new Date(b.createdDateTime).getTime());
+        soredChats.forEach(f=> {
+
+          if(f.isAttachement){
+
+            f.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' 
+                 + f.imageBytes);
+          }
+
+        });
         this.chats.next(soredChats);
         return chaArra;
       }));

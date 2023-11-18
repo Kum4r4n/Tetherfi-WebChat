@@ -14,6 +14,27 @@ namespace Message.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<Chat> AddImageChat(Guid partnerId, Guid userId, byte[] imageBytes)
+        {
+            var exisitingChatRoom = await _dbContext.Chats.Where(x => x.ChatRoomId.Contains(userId.ToString()) && x.ChatRoomId.Contains(partnerId.ToString())).ToListAsync();
+            var chatRoomId = exisitingChatRoom?.FirstOrDefault()?.ChatRoomId ?? partnerId + "_" + userId;
+            var chatRoom = new Chat()
+            {
+                ChatRoomId = chatRoomId,
+                CreatedDateTime = DateTime.UtcNow,
+                Id = Guid.NewGuid(),
+                SenderId = userId,
+                IsAttachement = true,
+                Message = "",
+                ImageBytes = imageBytes
+            };
+
+            await _dbContext.Chats.AddAsync(chatRoom);
+            await _dbContext.SaveChangesAsync();
+
+            return chatRoom;
+        }
+
         public async Task<Chat> AddChat(string message, Guid partnerId, Guid userId)
         {
             var exisitingChatRoom = await _dbContext.Chats.Where(x => x.ChatRoomId.Contains(userId.ToString()) && x.ChatRoomId.Contains(partnerId.ToString())).ToListAsync();
@@ -25,6 +46,8 @@ namespace Message.Infrastructure.Repositories
                 Id = Guid.NewGuid(),
                 Message = message,
                 SenderId = userId,
+                ImageBytes = null,
+                IsAttachement = false
             };
 
             await _dbContext.Chats.AddAsync(chatRoom);

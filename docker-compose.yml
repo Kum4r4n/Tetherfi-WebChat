@@ -42,11 +42,11 @@ services:
       context: .
       dockerfile: src/Gateways/Tetherfi.Gateway/Dockerfile
 
-  tetherfi.web:
-    image: ${DOCKER_REGISTRY-}tetherfi-web
-    build: 
-        context: ./src/Web/Web.SPA/Tetherfi-Web
-        dockerfile: ./Dockerfile
-    ports:
-      - 4200:80
+  # tetherfi.web:
+  #   image: ${DOCKER_REGISTRY-}tetherfi-web
+  #   build: 
+  #       context: ./src/Web/Web.SPA/Tetherfi-Web
+  #       dockerfile: ./Dockerfile
+  #   ports:
+  #     - 4200:80
 
